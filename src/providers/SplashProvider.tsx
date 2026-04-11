@@ -82,11 +82,11 @@ export function SplashProvider({ children }: SplashProviderProps) {
                     onTransitionStart={handleTransitionStart}
                 />
             )}
-            <div
-                className={`transition-opacity duration-500 ${showSplash ? 'opacity-0' : 'opacity-100'}`}
-            >
-                {children}
-            </div>
+            {!showSplash && (
+                <div className="transition-opacity duration-500 opacity-100">
+                    {children}
+                </div>
+            )}
         </SplashContext.Provider>
     );
 }
