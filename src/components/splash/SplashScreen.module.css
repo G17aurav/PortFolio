@@ -1,0 +1,94 @@
+.splash {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #000;
+  padding: clamp(1rem, 4vw, 2.2rem);
+}
+
+.glow {
+  position: absolute;
+  inset: -24%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 210, 31, 0.22), transparent 48%),
+    radial-gradient(circle at 80% 75%, rgba(255, 255, 255, 0.16), transparent 52%);
+  filter: blur(36px);
+  animation: drift 14s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: min(96vw, 1300px);
+}
+
+.introSvg {
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  overflow: visible;
+  filter: drop-shadow(0 16px 34px rgba(255, 210, 31, 0.2));
+}
+
+.introLine {
+  fill: transparent;
+  stroke-width: 2.3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill markers;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.introLineTop {
+  stroke: #ffffff;
+  font-size: 70px;
+  font-weight: 700;
+}
+
+.introLineBottom {
+  stroke: #ffd21f;
+  font-size: 134px;
+  font-weight: 800;
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(2%, 3%, 0) scale(1.08);
+  }
+}
+
+@media (max-width: 900px) {
+  .introLine {
+    stroke-width: 2;
+  }
+
+  .introLineTop {
+    font-size: 56px;
+  }
+
+  .introLineBottom {
+    font-size: 96px;
+  }
+}
+
+@media (max-width: 520px) {
+  .introLine {
+    stroke-width: 1.6;
+  }
+
+  .introLineTop {
+    font-size: 38px;
+  }
+
+  .introLineBottom {
+    font-size: 66px;
+  }
+}
