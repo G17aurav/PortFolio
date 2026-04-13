@@ -1,12 +1,16 @@
-import { HeroSection, Navbar } from "@/components/home";
+import { HeroSection, Navbar, About, Projects } from "@/components/home";
 
 export default function Home() {
   return (
-    <>
+    <div className="bg-gray-950">
       <Navbar />
-      <main id="home">
+      <main>
         <HeroSection />
       </main>
-    </>
+      <main className="flex justify-center">
+        <About/>
+      </main>
+      <Projects/>
+    </div>
   );
 }
