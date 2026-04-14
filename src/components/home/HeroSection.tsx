@@ -4,7 +4,11 @@ import Image from "next/image";
 import { HexagonBackground } from "../animate-ui/components/backgrounds/hexagon";
 import { LiquidButton } from "../animate-ui/primitives/buttons/liquid";
 
-export const HeroSection = () => {
+type HeroSectionProps = {
+  onContactClick?: () => void;
+};
+
+export const HeroSection = ({ onContactClick }: HeroSectionProps) => {
   return (
     <HexagonBackground className="relative h-screen min-h-screen max-h-screen w-full overflow-hidden bg-black text-white">
       <section className="relative h-screen min-h-screen max-h-screen overflow-hidden pt-28">
@@ -46,8 +50,12 @@ export const HeroSection = () => {
             </p>
 
             <div className="mt-8 w-fit">
-              <LiquidButton asChild className="cursor-pointer">
-                <a href="mailto:gauravsinghmjm25@gmail.com">Contact Me</a>
+              <LiquidButton
+                type="button"
+                onClick={onContactClick}
+                className="cursor-pointer"
+              >
+                Contact Me
               </LiquidButton>
             </div>
           </div>
