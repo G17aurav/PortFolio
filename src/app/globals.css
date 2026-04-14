@@ -132,7 +132,7 @@
     padding: 0;
     width: 100%;
     min-height: 100%;
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
   body {
     @apply bg-background text-foreground;
@@ -140,4 +140,74 @@
   html {
     @apply font-sans;
   }
+}
+
+/* Lenis base styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch],
+.lenis [data-lenis-prevent-vertical],
+.lenis [data-lenis-prevent-horizontal] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Yellow custom scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #facc15 #0a0a0a;
+}
+
+html::-webkit-scrollbar {
+  width: 2px;
+  height: 12px;
+}
+
+html::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #fde047 0%, #facc15 50%, #eab308 100%);
+  border-radius: 9999px;
+  border: 2px solid #0a0a0a;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fef08a 0%, #fde047 45%, #facc15 100%);
+}
+
+html::-webkit-scrollbar-thumb:active {
+  background: #f59e0b;
+}
+
+/* Hide scrollbar arrow buttons in Chromium browsers */
+html::-webkit-scrollbar-button,
+body::-webkit-scrollbar-button,
+html::-webkit-scrollbar-button:single-button,
+body::-webkit-scrollbar-button:single-button,
+html::-webkit-scrollbar-button:vertical:decrement,
+html::-webkit-scrollbar-button:vertical:increment,
+body::-webkit-scrollbar-button:vertical:decrement,
+body::-webkit-scrollbar-button:vertical:increment,
+html::-webkit-scrollbar-button:horizontal:decrement,
+html::-webkit-scrollbar-button:horizontal:increment,
+body::-webkit-scrollbar-button:horizontal:decrement,
+body::-webkit-scrollbar-button:horizontal:increment {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
 }

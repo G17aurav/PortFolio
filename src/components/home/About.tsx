@@ -34,7 +34,7 @@ const TECH_STACK_ITEMS = [
   { image: "tailwind.png", label: "Tailwind" },
   { image: "gsap.png", label: "GSAP" },
   { image: "express.png", label: "Express" },
-  { image: "NodeJS.png", label: "Node.js" },
+  { image: "docker.png", label: "Docker" },
   { image: "mongodb.png", label: "MongoDB" },
   { image: "prisma.png", label: "Prisma" },
   { image: "redis.png", label: "Redis" },
@@ -116,18 +116,17 @@ export default function Page() {
   );
 }`,
   },
-  "NodeJS.png": {
-    fileName: "index.js",
-    code: `const http = require("http");
+  "docker.png": {
+    fileName: "Dockerfile",
+    code: `FROM node:20-alpine
 
-const server = http.createServer((_req, res) => {
-  res.writeHead(200, { "content-type": "application/json" });
-  res.end(JSON.stringify({ status: "ok" }));
-});
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
 
-server.listen(3000, () => {
-  console.log("Node server running on http://localhost:3000");
-});`,
+COPY . .
+EXPOSE 3000
+CMD ["npm", "run", "start"]`,
   },
   "prisma.png": {
     fileName: "prisma/schema.prisma",
@@ -176,23 +175,21 @@ app.get("/cache-health", async (_req, res) => {
 
 export const About = () => {
   const [activeImage, setActiveImage] = useState<string | null>(null);
-  const hoverTimeoutRef = useRef<ReturnType<typeof window.setTimeout> | null>(
-    null,
-  );
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearHoverTimeout = () => {
     if (hoverTimeoutRef.current !== null) {
-      window.clearTimeout(hoverTimeoutRef.current);
+      clearTimeout(hoverTimeoutRef.current);
       hoverTimeoutRef.current = null;
     }
   };
 
   const showPreviewWithDelay = (imageName: string) => {
     clearHoverTimeout();
-    hoverTimeoutRef.current = window.setTimeout(() => {
+    hoverTimeoutRef.current = setTimeout(() => {
       setActiveImage(imageName);
       hoverTimeoutRef.current = null;
-    }, 700);
+    }, 500);
   };
 
   const resetPreview = () => {
@@ -234,7 +231,7 @@ export const About = () => {
               professional environments.
             </p>
             <p>
-              My technical expertise includes React, Next.js, Node.js,
+              My technical expertise includes React, Next.js, Docker,
               Express.js, MongoDB, MySQL, Prisma, JavaScript, TypeScript, and
               Tailwind CSS, complemented by tools and libraries such as GSAP,
               Vitest, Cypress, and Postman.
