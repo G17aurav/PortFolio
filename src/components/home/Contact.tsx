@@ -39,8 +39,6 @@ const SOCIAL_ACCOUNTS: SocialAccount[] = [
   },
 ];
 
-const WEB3FORMS_ACCESS_KEY = "5627848d-017a-4c2f-8ba8-66fdbd6a5ed6";
-
 function SocialIcon({ type }: { type: SocialAccount["icon"] }) {
   if (type === "github") {
     return (
@@ -143,8 +141,26 @@ export const Contact = () => {
     setSubmitMessage("");
 
     try {
+      const encodedAccessKey =
+        process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY_B64 ?? "";
+
+      if (!encodedAccessKey) {
+        setSubmitState("error");
+        setSubmitMessage("Contact form is not configured. Please try later.");
+        return;
+      }
+
+      let accessKey = "";
+      try {
+        accessKey = atob(encodedAccessKey);
+      } catch {
+        setSubmitState("error");
+        setSubmitMessage("Contact form key format is invalid.");
+        return;
+      }
+
       const payload = new FormData();
-      payload.append("access_key", WEB3FORMS_ACCESS_KEY);
+      payload.append("access_key", accessKey);
       payload.append("name", username);
       payload.append("email", email);
       payload.append("message", message);
