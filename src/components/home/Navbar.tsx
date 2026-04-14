@@ -1,5 +1,8 @@
 "use client";
 
+import { useLayoutEffect, useRef } from "react";
+import { gsap } from "gsap";
+
 type SectionKey = "home" | "about" | "projects" | "contact";
 
 type NavbarProps = {
@@ -15,8 +18,25 @@ const NAV_ITEMS: Array<{ key: SectionKey; label: string }> = [
 ];
 
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
+  const navRef = useRef<HTMLElement | null>(null);
+
+  useLayoutEffect(() => {
+    const scope = navRef.current;
+    if (!scope) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        scope,
+        { autoAlpha: 0, y: -20 },
+        { autoAlpha: 1, y: 0, duration: 0.7, ease: "power3.out", delay: 0.1 },
+      );
+    }, scope);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-999">
+    <header ref={navRef} className="fixed inset-x-0 top-0 z-999">
       <nav className="mx-auto mt-4 flex w-[min(1200px,calc(100%-2rem))] items-center justify-between rounded-full border border-yellow-400/35 bg-black/70 px-5 py-3 text-white backdrop-blur-md md:px-7">
         <button
           type="button"
@@ -44,8 +64,9 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
         </div>
 
         <a
-          href="/Resume_GauravSingh.pdf"
-          download="Resume_GauravSingh.pdf"
+          href="https://drive.google.com/file/d/13mMO9EZVqS34G069c-Ttnok7fcTeeMdc/view?usp=sharing"
+          target="_blank"
+          rel="noreferrer"
           className="rounded-full border border-yellow-400 bg-yellow-400 px-4 py-2 text-sm font-semibold text-black transition-transform hover:scale-[1.03]"
         >
           Download CV

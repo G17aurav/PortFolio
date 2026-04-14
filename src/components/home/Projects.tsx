@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
+import { useGsapReveal } from "@/hooks/use-gsap-reveal";
 
 type ProjectCard = {
   name: string;
@@ -78,13 +80,26 @@ const PROJECTS: ProjectCard[] = [
 ];
 
 export const Projects = () => {
+  const projectsRef = useRef<HTMLElement | null>(null);
+  useGsapReveal(projectsRef, {
+    selector: "[data-animate-projects]",
+    y: 34,
+    duration: 0.78,
+    stagger: 0.12,
+    start: "top 84%",
+  });
+
   return (
     <section
+      ref={projectsRef}
       id="projects"
       className="relative w-full overflow-x-hidden bg-black px-4 pb-24 pt-28 text-white md:px-8"
     >
       <div className="mx-auto w-[90vw] max-w-7xl">
-        <h2 className="mb-32 text-center text-4xl font-bold md:text-5xl lg:text-6xl">
+        <h2
+          data-animate-projects
+          className="mb-32 text-center text-4xl font-bold md:text-5xl lg:text-6xl"
+        >
           From <span className="text-yellow-400">CONCEPTS </span>To{" "}
           <span className="text-yellow-400">PRODUCTIONS</span>
         </h2>
@@ -93,6 +108,7 @@ export const Projects = () => {
           {PROJECTS.map((project) => (
             <article
               key={project.name}
+              data-animate-projects
               className="group relative h-107.5 overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/70 transition-all duration-500 hover:border-yellow-300/40 hover:shadow-[0_0_30px_rgba(250,204,21,0.2)]"
             >
               <div className="absolute inset-0">
@@ -181,4 +197,3 @@ export const Projects = () => {
     </section>
   );
 };
-

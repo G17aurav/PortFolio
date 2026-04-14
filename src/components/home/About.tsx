@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { CodeTabs } from "../animate-ui/components/animate/code-tabs";
+import { useGsapReveal } from "@/hooks/use-gsap-reveal";
 
 const REACT_TAILWIND_CODE = `import { useState } from "react";
 
@@ -174,8 +175,17 @@ app.get("/cache-health", async (_req, res) => {
 };
 
 export const About = () => {
+  const aboutRef = useRef<HTMLDivElement | null>(null);
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useGsapReveal(aboutRef, {
+    selector: "[data-animate-about]",
+    y: 30,
+    duration: 0.75,
+    stagger: 0.1,
+    start: "top 82%",
+  });
 
   const clearHoverTimeout = () => {
     if (hoverTimeoutRef.current !== null) {
@@ -209,9 +219,12 @@ export const About = () => {
   }, [activeImage]);
 
   return (
-    <div className="relative h-auto w-full overflow-x-hidden bg-black py-8 pt-16 text-white">
+    <div
+      ref={aboutRef}
+      className="relative h-auto w-full overflow-x-hidden bg-black py-8 pt-16 text-white"
+    >
       <div className="mx-auto grid h-auto w-[90vw] max-w-7xl items-center gap-10 lg:grid-cols-2">
-        <div className="flex flex-col justify-center z-900">
+        <div data-animate-about className="z-900 flex flex-col justify-center">
           <p className="mb-5 text-4xl font-black tracking-tight leading-[0.95] md:text-6xl lg:text-7xl">
             <span className="text-yellow-400">DEVELOPER</span> Overview
           </p>
@@ -238,7 +251,7 @@ export const About = () => {
             </p>
           </div>
         </div>
-        <div className="flex h-full items-center justify-center">
+        <div data-animate-about className="flex h-full items-center justify-center">
           <div className="w-full max-w-3xl" onMouseLeave={resetPreview}>
             {activeCodeTab ? (
               <CodeTabs
@@ -257,6 +270,7 @@ export const About = () => {
                     onFocus={() => showPreviewWithDelay(item.image)}
                     onMouseLeave={clearHoverTimeout}
                     onBlur={clearHoverTimeout}
+                    data-animate-about
                     className="group relative aspect-square cursor-pointer overflow-hidden rounded-2xl bg-zinc-950/80 p-3"
                     aria-label={`Preview ${item.label} code`}
                   >

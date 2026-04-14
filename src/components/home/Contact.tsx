@@ -1,8 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Mail } from "lucide-react";
 import { LiquidButton } from "../animate-ui/components/buttons/liquid";
+import { useGsapReveal } from "@/hooks/use-gsap-reveal";
 
 type SocialAccount = {
   name: string;
@@ -108,10 +109,19 @@ function SocialIcon({ type }: { type: SocialAccount["icon"] }) {
 }
 
 export const Contact = () => {
+  const contactRef = useRef<HTMLElement | null>(null);
   const [submitState, setSubmitState] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
   const [submitMessage, setSubmitMessage] = useState("");
+
+  useGsapReveal(contactRef, {
+    selector: "[data-animate-contact]",
+    y: 30,
+    duration: 0.75,
+    stagger: 0.11,
+    start: "top 84%",
+  });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -167,16 +177,23 @@ export const Contact = () => {
 
   return (
     <section
+      ref={contactRef}
       id="contact"
       className="relative w-full overflow-x-hidden bg-black px-4 pb-24 pt-28 text-white md:px-8"
     >
       <div className="mx-auto w-[90vw] max-w-7xl">
-        <h2 className="mb-16 text-center text-4xl font-bold md:text-5xl lg:text-6xl">
+        <h2
+          data-animate-contact
+          className="mb-16 text-center text-4xl font-bold md:text-5xl lg:text-6xl"
+        >
           Contact <span className="text-yellow-400">ME</span>
         </h2>
 
         <div className="grid gap-10 lg:grid-cols-2">
-          <div className="rounded-3xl border border-yellow-400 bg-zinc-950/60 p-6 md:p-8">
+          <div
+            data-animate-contact
+            className="rounded-3xl border border-yellow-400 bg-zinc-950/60 p-6 md:p-8"
+          >
             <p className="text-sm uppercase tracking-[0.25em] text-yellow-400/90">
               Connect With Me
             </p>
@@ -225,7 +242,10 @@ export const Contact = () => {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-yellow-400 bg-zinc-950/60 p-6 md:p-8">
+          <div
+            data-animate-contact
+            className="rounded-3xl border border-yellow-400 bg-zinc-950/60 p-6 md:p-8"
+          >
             <p className="text-sm uppercase tracking-[0.25em] text-yellow-400/90">
               Send Message
             </p>
